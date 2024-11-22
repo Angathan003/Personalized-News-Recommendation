@@ -1,0 +1,775 @@
+Index: src/main/java/org/example/personalizednewsrecommendation/HelloApplication.java
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/HelloApplication.java b/src/main/java/org/example/personalizednewsrecommendation/HelloApplication.java
+deleted file mode 100644
+--- a/src/main/java/org/example/personalizednewsrecommendation/HelloApplication.java	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
++++ /dev/null	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
+@@ -1,23 +0,0 @@
+-package org.example.personalizednewsrecommendation;
+-
+-import javafx.application.Application;
+-import javafx.fxml.FXMLLoader;
+-import javafx.scene.Scene;
+-import javafx.stage.Stage;
+-
+-import java.io.IOException;
+-
+-public class HelloApplication extends Application {
+-    @Override
+-    public void start(Stage stage) throws IOException {
+-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+-        stage.setTitle("Hello!");
+-        stage.setScene(scene);
+-        stage.show();
+-    }
+-
+-    public static void main(String[] args) {
+-        launch();
+-    }
+-}
+\ No newline at end of file
+Index: src/main/java/org/example/personalizednewsrecommendation/HelloController.java
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/HelloController.java b/src/main/java/org/example/personalizednewsrecommendation/HelloController.java
+deleted file mode 100644
+--- a/src/main/java/org/example/personalizednewsrecommendation/HelloController.java	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
++++ /dev/null	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
+@@ -1,14 +0,0 @@
+-package org.example.personalizednewsrecommendation;
+-
+-import javafx.fxml.FXML;
+-import javafx.scene.control.Label;
+-
+-public class HelloController {
+-    @FXML
+-    private Label welcomeText;
+-
+-    @FXML
+-    protected void onHelloButtonClick() {
+-        welcomeText.setText("Welcome to JavaFX Application!");
+-    }
+-}
+\ No newline at end of file
+Index: src/main/java/org/example/personalizednewsrecommendation/MainApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/MainApp.java b/src/main/java/org/example/personalizednewsrecommendation/MainApp.java
+new file mode 100644
+--- /dev/null	(date 1732680747373)
++++ b/src/main/java/org/example/personalizednewsrecommendation/MainApp.java	(date 1732680747373)
+@@ -0,0 +1,21 @@
++package org.example.personalizednewsrecommendation;
++
++import javafx.application.Application;
++import javafx.scene.Scene;
++import javafx.stage.Stage;
++import org.example.personalizednewsrecommendation.controllers.LoginScreen;
++
++public class MainApp extends Application {
++
++    @Override
++    public void start(Stage primaryStage) {
++        LoginScreen loginScreen = new LoginScreen();
++        primaryStage.setScene(loginScreen.getLoginScene(primaryStage));
++        primaryStage.setTitle("Personalized News Recommendation System");
++        primaryStage.show();
++    }
++
++    public static void main(String[] args) {
++        launch(args);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java
+new file mode 100644
+--- /dev/null	(date 1732682480902)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java	(date 1732682480902)
+@@ -0,0 +1,69 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++import javafx.geometry.Pos;
++import javafx.scene.Scene;
++import javafx.scene.control.*;
++import javafx.scene.layout.GridPane;
++import javafx.stage.Stage;
++import org.example.personalizednewsrecommendation.utils.Alerts;
++import org.example.personalizednewsrecommendation.services.UserManager;
++
++public class LoginScreen {
++
++    private final UserManager userManager = new UserManager();
++
++    public Scene getLoginScene(Stage stage) {
++        Label usernameLabel = new Label("Username:");
++        TextField usernameField = new TextField();
++        Label passwordLabel = new Label("Password:");
++        PasswordField passwordField = new PasswordField();
++        Label roleLabel = new Label("Role:");
++        ComboBox<String> roleDropdown = new ComboBox<>();
++        roleDropdown.getItems().addAll("User", "Admin");
++        roleDropdown.setValue("User");
++
++        Button loginButton = new Button("Login");
++        Button registerButton = new Button("Register");
++
++        roleDropdown.setOnAction(e -> registerButton.setDisable(roleDropdown.getValue().equals("Admin")));
++
++        loginButton.setOnAction(e -> {
++            String username = usernameField.getText();
++            String password = passwordField.getText();
++            String role = roleDropdown.getValue();
++
++            if (role.equals("Admin")) {
++                if (userManager.login(username, password, "Admin")) {
++                    Alerts.showSuccess("Welcome, Admin!");
++                    stage.setScene(new AdminDashboard().getAdminScene(stage));
++                } else {
++                    Alerts.showError("Invalid Admin credentials!");
++                }
++            } else {
++                if (userManager.login(username, password, "User")) {
++                    Alerts.showSuccess("Welcome, " + username + "!");
++                    stage.setScene(new HomeDashboard(username).getHomeScene(stage));
++                } else {
++                    Alerts.showError("Invalid User credentials!");
++                }
++            }
++        });
++
++        registerButton.setOnAction(e -> Alerts.showSuccess("Redirecting to registration..."));
++
++        GridPane grid = new GridPane();
++        grid.setAlignment(Pos.CENTER);
++        grid.setVgap(10);
++        grid.setHgap(10);
++        grid.add(usernameLabel, 0, 0);
++        grid.add(usernameField, 1, 0);
++        grid.add(passwordLabel, 0, 1);
++        grid.add(passwordField, 1, 1);
++        grid.add(roleLabel, 0, 2);
++        grid.add(roleDropdown, 1, 2);
++        grid.add(loginButton, 0, 3);
++        grid.add(registerButton, 1, 3);
++
++        return new Scene(grid, 400, 300);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java
+new file mode 100644
+--- /dev/null	(date 1732682656442)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java	(date 1732682656442)
+@@ -0,0 +1,43 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++import javafx.collections.FXCollections;
++import javafx.collections.ObservableList;
++import javafx.scene.Scene;
++import javafx.scene.control.Button;
++import javafx.scene.control.ListView;
++import javafx.scene.layout.VBox;
++import javafx.stage.Stage;
++
++import java.util.List;
++
++public class ArticleDisplay {
++
++    private final String username; // Store username locally
++
++    public ArticleDisplay(String username) {
++        this.username = username; // Initialize with the username
++    }
++
++    public Scene getArticleScene(Stage stage) {
++        ListView<String> articleList = new ListView<>();
++        ObservableList<String> articles = FXCollections.observableArrayList(
++                "Article 1: Technology - AI Advancements",
++                "Article 2: Health - Benefits of Meditation",
++                "Article 3: Sports - World Cup Updates"
++        );
++        articleList.setItems(articles);
++
++        Button likeButton = new Button("Like");
++        Button skipButton = new Button("Skip");
++        Button backButton = new Button("Back");
++
++        likeButton.setOnAction(e -> System.out.println("Article liked by " + username));
++        skipButton.setOnAction(e -> System.out.println("Article skipped by " + username));
++
++        // Pass username when going back to HomeDashboard
++        backButton.setOnAction(e -> stage.setScene(new HomeDashboard(username).getHomeScene(stage)));
++
++        VBox layout = new VBox(10, articleList, likeButton, skipButton, backButton);
++        return new Scene(layout, 600, 400);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java
+new file mode 100644
+--- /dev/null	(date 1732682365085)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java	(date 1732682365085)
+@@ -0,0 +1,33 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++import javafx.geometry.Insets;
++import javafx.geometry.Pos;
++import javafx.scene.Scene;
++import javafx.scene.control.Button;
++import javafx.scene.layout.VBox;
++import javafx.stage.Stage;
++
++public class HomeDashboard {
++
++    private final String username;
++
++    public HomeDashboard(String username) {
++        this.username = username;
++    }
++
++    public Scene getHomeScene(Stage stage) {
++        Button viewArticlesButton = new Button("View Articles");
++        Button settingsButton = new Button("Settings");
++        Button logoutButton = new Button("Logout");
++
++        viewArticlesButton.setOnAction(e -> System.out.println("Navigating to articles for user: " + username));
++        settingsButton.setOnAction(e -> System.out.println("Navigating to settings for user: " + username));
++        logoutButton.setOnAction(e -> stage.setScene(new LoginScreen().getLoginScene(stage)));
++
++        VBox layout = new VBox(15, viewArticlesButton, settingsButton, logoutButton);
++        layout.setAlignment(Pos.CENTER);
++        layout.setPadding(new Insets(20));
++
++        return new Scene(layout, 400, 300);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java
+new file mode 100644
+--- /dev/null	(date 1732682717295)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java	(date 1732682717295)
+@@ -0,0 +1,39 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++import javafx.geometry.Pos;
++import javafx.scene.Scene;
++import javafx.scene.control.*;
++import javafx.scene.layout.VBox;
++import javafx.stage.Stage;
++import org.example.personalizednewsrecommendation.utils.Alerts;
++
++public class SettingsScreen {
++
++    private final String username; // Store the username
++
++    // Constructor to initialize username
++    public SettingsScreen(String username) {
++        this.username = username;
++    }
++
++    public Scene getSettingsScene(Stage stage) {
++        Label preferencesLabel = new Label("Preferences:");
++        TextField preferencesField = new TextField();
++        Button saveButton = new Button("Save");
++        Button backButton = new Button("Back");
++
++        // Save preferences
++        saveButton.setOnAction(e -> {
++            // Save logic here (currently just a placeholder)
++            Alerts.showSuccess("Preferences saved!");
++        });
++
++        // Navigate back to HomeDashboard with the username
++        backButton.setOnAction(e -> stage.setScene(new HomeDashboard(username).getHomeScene(stage)));
++
++        VBox layout = new VBox(10, preferencesLabel, preferencesField, saveButton, backButton);
++        layout.setAlignment(Pos.CENTER);
++
++        return new Scene(layout, 400, 300);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java b/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java
+new file mode 100644
+--- /dev/null	(date 1732681413280)
++++ b/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java	(date 1732681413280)
+@@ -0,0 +1,20 @@
++package org.example.personalizednewsrecommendation.utils;
++
++import javafx.scene.control.Alert;
++
++public class Alerts {
++
++    public static void showError(String message) {
++        Alert alert = new Alert(Alert.AlertType.ERROR);
++        alert.setTitle("Error");
++        alert.setContentText(message);
++        alert.showAndWait();
++    }
++
++    public static void showSuccess(String message) {
++        Alert alert = new Alert(Alert.AlertType.INFORMATION);
++        alert.setTitle("Success");
++        alert.setContentText(message);
++        alert.showAndWait();
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java
+new file mode 100644
+--- /dev/null	(date 1732682513646)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java	(date 1732682513646)
+@@ -0,0 +1,25 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++import javafx.geometry.Insets;
++import javafx.geometry.Pos;
++import javafx.scene.Scene;
++import javafx.scene.control.Button;
++import javafx.scene.layout.VBox;
++import javafx.stage.Stage;
++
++public class AdminDashboard {
++
++    public Scene getAdminScene(Stage stage) {
++        Button manageArticlesButton = new Button("Manage Articles");
++        Button logoutButton = new Button("Logout");
++
++        manageArticlesButton.setOnAction(e -> System.out.println("Navigating to manage articles."));
++        logoutButton.setOnAction(e -> stage.setScene(new LoginScreen().getLoginScene(stage)));
++
++        VBox layout = new VBox(15, manageArticlesButton, logoutButton);
++        layout.setAlignment(Pos.CENTER);
++        layout.setPadding(new Insets(20));
++
++        return new Scene(layout, 400, 300);
++    }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/controllers/ManageArticlesScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/controllers/ManageArticlesScreen.java b/src/main/java/org/example/personalizednewsrecommendation/controllers/ManageArticlesScreen.java
+new file mode 100644
+--- /dev/null	(date 1732680550903)
++++ b/src/main/java/org/example/personalizednewsrecommendation/controllers/ManageArticlesScreen.java	(date 1732680550903)
+@@ -0,0 +1,4 @@
++package org.example.personalizednewsrecommendation.controllers;
++
++public class ManageArticlesScreen {
++}
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+new file mode 100644
+--- /dev/null	(date 1732255302128)
++++ b/.idea/encodings.xml	(date 1732255302128)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"30c9bc7c-b954-4b3d-9351-b06a588b1dd2\" name=\"Changes\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 4\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2pC1WYAxl8ymcSbZHMPNFscknxh\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"kotlin-language-version-configured\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"30c9bc7c-b954-4b3d-9351-b06a588b1dd2\" name=\"Changes\" comment=\"\" />\r\n      <created>1732255278281</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1732255278281</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
++++ b/.idea/workspace.xml	(date 1732681880793)
+@@ -4,12 +4,52 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="" />
++    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="First Frontend Commit">
++      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ManageArticlesScreen.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/Admin.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/HelloApplication.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/HelloController.java" beforeDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Class" />
++      </list>
++    </option>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;Angathan003&quot;
++  }
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/Angathan003/Personalized-News-Recommendation.git&quot;,
++    &quot;accountId&quot;: &quot;ff7672f7-b770-4262-982c-e574e8c223df&quot;
++  }
++}</component>
+   <component name="MavenImportPreferences">
+     <option name="generalSettings">
+       <MavenGeneralSettings>
+@@ -17,21 +57,31 @@
+       </MavenGeneralSettings>
+     </option>
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 4
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 4
++}</component>
+   <component name="ProjectId" id="2pC1WYAxl8ymcSbZHMPNFscknxh" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "kotlin-language-version-configured": "true"
+-  }
+-}]]></component>
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
++    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;
++  }
++}</component>
++  <component name="RecentsManager">
++    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
++      <recent name="org.example.personalizednewsrecommendation" />
++    </key>
++  </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -41,6 +91,30 @@
+       <option name="presentableId" value="Default" />
+       <updated>1732255278281</updated>
+     </task>
++    <task id="LOCAL-00001" summary="First Frontend Commit">
++      <option name="closed" value="true" />
++      <created>1732255428680</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1732255428680</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="First Frontend Commit" />
++    <option name="LAST_COMMIT_MESSAGE" value="First Frontend Commit" />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1732680519513)
++++ b/.idea/uiDesigner.xml	(date 1732680519513)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module org.example.personalizednewsrecommendation {\r\n    requires javafx.controls;\r\n    requires javafx.fxml;\r\n\r\n\r\n    opens org.example.personalizednewsrecommendation to javafx.fxml;\r\n    exports org.example.personalizednewsrecommendation;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision 1fdbb063baa05f0c5c329b9acb2bc62866ca7e55)
++++ b/src/main/java/module-info.java	(date 1732681413343)
+@@ -5,4 +5,8 @@
+ 
+     opens org.example.personalizednewsrecommendation to javafx.fxml;
+     exports org.example.personalizednewsrecommendation;
++    exports org.example.personalizednewsrecommendation.controllers;
++    opens org.example.personalizednewsrecommendation.controllers to javafx.fxml;
++    exports org.example.personalizednewsrecommendation.utils;
++    opens org.example.personalizednewsrecommendation.utils to javafx.fxml;
+ }
+\ No newline at end of file
+Index: src/main/java/org/example/personalizednewsrecommendation/models/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/models/User.java b/src/main/java/org/example/personalizednewsrecommendation/models/User.java
+new file mode 100644
+--- /dev/null	(date 1732680867464)
++++ b/src/main/java/org/example/personalizednewsrecommendation/models/User.java	(date 1732680867464)
+@@ -0,0 +1,17 @@
++package org.example.personalizednewsrecommendation.models;
++
++public class User {
++    private String username;
++    private String password;
++    private String preferences;
++
++    public User(String username, String password, String preferences) {
++        this.username = username;
++        this.password = password;
++        this.preferences = preferences;
++    }
++
++    public String getUsername() { return username; }
++    public String getPassword() { return password; }
++    public String getPreferences() { return preferences; }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/models/Admin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/models/Admin.java b/src/main/java/org/example/personalizednewsrecommendation/models/Admin.java
+new file mode 100644
+--- /dev/null	(date 1732680888225)
++++ b/src/main/java/org/example/personalizednewsrecommendation/models/Admin.java	(date 1732680888225)
+@@ -0,0 +1,9 @@
++package org.example.personalizednewsrecommendation.models;
++
++public class Admin {
++    private final String username = "admin";
++    private final String password = "admin123";
++
++    public String getUsername() { return username; }
++    public String getPassword() { return password; }
++}
+Index: src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java b/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java
+new file mode 100644
+--- /dev/null	(date 1732681413389)
++++ b/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java	(date 1732681413389)
+@@ -0,0 +1,22 @@
++package org.example.personalizednewsrecommendation.services;
++
++import org.example.personalizednewsrecommendation.models.Admin;
++import org.example.personalizednewsrecommendation.models.User;
++
++import java.util.HashMap;
++import java.util.Map;
++
++public class UserManager {
++
++    private final Map<String, User> users = new HashMap<>();
++    private final Admin admin = new Admin();
++
++    public boolean login(String username, String password, String role) {
++        if (role.equals("Admin")) {
++            return admin.getUsername().equals(username) && admin.getPassword().equals(password);
++        } else {
++            User user = users.get(username);
++            return user != null && user.getPassword().equals(password);
++        }
++    }
++}
