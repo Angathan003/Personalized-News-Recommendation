@@ -5,4 +5,8 @@ module org.example.personalizednewsrecommendation {
 
     opens org.example.personalizednewsrecommendation to javafx.fxml;
     exports org.example.personalizednewsrecommendation;
+    exports org.example.personalizednewsrecommendation.controllers;
+    opens org.example.personalizednewsrecommendation.controllers to javafx.fxml;
+    exports org.example.personalizednewsrecommendation.utils;
+    opens org.example.personalizednewsrecommendation.utils to javafx.fxml;
 }
