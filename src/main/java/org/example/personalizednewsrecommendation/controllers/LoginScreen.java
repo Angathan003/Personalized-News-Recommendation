@@ -5,12 +5,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import org.example.personalizednewsrecommendation.utils.Alerts;
+import org.example.personalizednewsrecommendation.services.ArticleManager;
 import org.example.personalizednewsrecommendation.services.UserManager;
+import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class LoginScreen {
 
     private final UserManager userManager = new UserManager();
+    private final ArticleManager articleManager;
+
+    public LoginScreen(ArticleManager articleManager) {
+        this.articleManager = articleManager;
+    }
 
     public Scene getLoginScene(Stage stage) {
         Label usernameLabel = new Label("Username:");
@@ -33,16 +39,16 @@ public class LoginScreen {
             String role = roleDropdown.getValue();
 
             if (role.equals("Admin")) {
-                if (userManager.login(username, password, "Admin")) {
+                if (username.equals("admin") && password.equals("admin123")) {
                     Alerts.showSuccess("Welcome, Admin!");
-                    stage.setScene(new AdminDashboard().getAdminScene(stage));
+                    stage.setScene(new AdminDashboard(articleManager).getAdminScene(stage));
                 } else {
                     Alerts.showError("Invalid Admin credentials!");
                 }
             } else {
-                if (userManager.login(username, password, "User")) {
+                if (userManager.login(username, password)) {
                     Alerts.showSuccess("Welcome, " + username + "!");
-                    stage.setScene(new HomeDashboard(username).getHomeScene(stage));
+                    stage.setScene(new HomeDashboard(username, articleManager).getHomeScene(stage));
                 } else {
                     Alerts.showError("Invalid User credentials!");
                 }

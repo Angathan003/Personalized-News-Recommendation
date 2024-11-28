@@ -7,37 +7,36 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.personalizednewsrecommendation.models.Article;
+import org.example.personalizednewsrecommendation.services.ArticleManager;
 
 import java.util.List;
 
 public class ArticleDisplay {
 
-    private final String username; // Store username locally
+    private final String username;
+    private final ArticleManager articleManager;
 
-    public ArticleDisplay(String username) {
-        this.username = username; // Initialize with the username
+    public ArticleDisplay(String username, ArticleManager articleManager) {
+        this.username = username;
+        this.articleManager = articleManager;
     }
 
     public Scene getArticleScene(Stage stage) {
+        // Get recommended articles (modify as needed for recommendation logic)
+        List<Article> articles = articleManager.getAllArticles();
         ListView<String> articleList = new ListView<>();
-        ObservableList<String> articles = FXCollections.observableArrayList(
-                "Article 1: Technology - AI Advancements",
-                "Article 2: Health - Benefits of Meditation",
-                "Article 3: Sports - World Cup Updates"
-        );
-        articleList.setItems(articles);
+        ObservableList<String> items = FXCollections.observableArrayList();
 
-        Button likeButton = new Button("Like");
-        Button skipButton = new Button("Skip");
+        for (Article article : articles) {
+            items.add(article.getTitle() + " (" + article.getCategory() + ")");
+        }
+        articleList.setItems(items);
+
         Button backButton = new Button("Back");
+        backButton.setOnAction(e -> stage.setScene(new HomeDashboard(username, articleManager).getHomeScene(stage)));
 
-        likeButton.setOnAction(e -> System.out.println("Article liked by " + username));
-        skipButton.setOnAction(e -> System.out.println("Article skipped by " + username));
-
-        // Pass username when going back to HomeDashboard
-        backButton.setOnAction(e -> stage.setScene(new HomeDashboard(username).getHomeScene(stage)));
-
-        VBox layout = new VBox(10, articleList, likeButton, skipButton, backButton);
+        VBox layout = new VBox(10, articleList, backButton);
         return new Scene(layout, 600, 400);
     }
 }

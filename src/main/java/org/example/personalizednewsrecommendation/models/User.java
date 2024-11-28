@@ -14,4 +14,6 @@ public class User {
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getPreferences() { return preferences; }
+
+    public void setPreferences(String preferences) { this.preferences = preferences; }
 }

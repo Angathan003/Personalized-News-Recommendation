@@ -4,29 +4,62 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final" />
+    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminAddArticle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminArticleView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminUpdateArticle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/Article.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/ArticleManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/RecommendationEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/personalizednewsrecommendation/hello-view.fxml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "state": "OPEN",
-      "assignee": "Angathan003",
-      "author": "Angathan003",
-      "label": "duplicate"
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Angathan003&quot;,
+      &quot;author&quot;: &quot;Angathan003&quot;,
+      &quot;label&quot;: &quot;duplicate&quot;
     }
   ],
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Angathan003",
-    "author": "Angathan003",
-    "label": "duplicate"
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Angathan003&quot;,
+    &quot;author&quot;: &quot;Angathan003&quot;,
+    &quot;label&quot;: &quot;duplicate&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Angathan003/Personalized-News-Recommendation.git",
+    "accountId": "ff7672f7-b770-4262-982c-e574e8c223df"
   }
 }]]></component>
   <component name="MavenImportPreferences">
@@ -45,13 +78,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

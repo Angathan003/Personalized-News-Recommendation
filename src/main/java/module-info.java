@@ -1,6 +1,7 @@
 module org.example.personalizednewsrecommendation {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens org.example.personalizednewsrecommendation to javafx.fxml;
