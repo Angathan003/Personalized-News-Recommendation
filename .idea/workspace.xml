@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final" />
+    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Personalized-News-Recommendation" beforeDir="false" afterPath="$PROJECT_DIR$/Personalized-News-Recommendation" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,12 +39,12 @@
     &quot;label&quot;: &quot;duplicate&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Angathan003/Personalized-News-Recommendation.git",
-    "accountId": "ff7672f7-b770-4262-982c-e574e8c223df"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Angathan003/Personalized-News-Recommendation.git&quot;,
+    &quot;accountId&quot;: &quot;ff7672f7-b770-4262-982c-e574e8c223df&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
