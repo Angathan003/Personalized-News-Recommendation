@@ -19,10 +19,10 @@ public class AdminAddArticle {
     public Scene getAddArticleScene(Stage stage) {
         // Input fields for article details
         TextField titleField = new TextField();
-        titleField.setPromptText("Enter article title");
+        titleField.setPromptText("Enter article title: ");
 
         TextField categoryField = new TextField();
-        categoryField.setPromptText("Enter article category");
+        categoryField.setPromptText("Enter article category: ");
 
         TextArea contentArea = new TextArea();
         contentArea.setPromptText("Enter article content");
