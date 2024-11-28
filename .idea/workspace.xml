@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminAddArticle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminArticleView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminUpdateArticle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/Article.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/ArticleManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/RecommendationEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/personalizednewsrecommendation/hello-view.fxml" beforeDir="false" />
-    </list>
+    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="Final" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
