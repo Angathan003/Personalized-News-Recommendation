@@ -28,7 +28,7 @@ public class AdminAddArticle {
         contentArea.setPromptText("Enter article content");
 
         // Buttons for actions
-        Button addButton = new Button("Add Article");
+        Button addButton = new Button("Add Article: ");
         Button backButton = new Button("Back");
 
         // Add button action
