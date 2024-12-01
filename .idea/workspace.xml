@@ -4,7 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="new 3" />
+    <list default="true" id="30c9bc7c-b954-4b3d-9351-b06a588b1dd2" name="Changes" comment="new 3">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminAddArticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminAddArticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminArticleView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminArticleView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDeleteArticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminDeleteArticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminUpdateArticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/AdminUpdateArticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/ArticleDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/HomeDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/RegistrationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/RegistrationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/controllers/SettingsScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/Article.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/ArticleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/ArticleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/CSVImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/CSVImporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/PasswordManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/RecommendationEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/RecommendationEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/utils/Alerts.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,6 +74,9 @@
     &quot;accountId&quot;: &quot;ff7672f7-b770-4262-982c-e574e8c223df&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/org/example/personalizednewsrecommendation/services/DatabaseConnection.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -66,10 +95,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.DatabaseConnection.executor": "Run",
     "Application.MainApp.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Second year IIT/OOD/Personalized-News-Recommendation/FrontEnd/Personalized-News-Recommendation",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   },
@@ -81,6 +115,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example.personalizednewsrecommendation.controllers" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -149,7 +188,50 @@
     <option name="localTasksCounter" value="8" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/Personalized-News-Recommendation" />
+      <path value="$PROJECT_DIR$/Personalized-News-Recommendation/Personalized-News-Recommendation" />
+    </ignored-roots>
     <MESSAGE value="First Frontend Commit" />
     <MESSAGE value="Final" />
     <MESSAGE value="new 2" />

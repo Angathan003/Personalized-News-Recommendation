@@ -2,47 +2,46 @@ package org.example.personalizednewsrecommendation.controllers;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.personalizednewsrecommendation.services.ArticleManager;
+import org.example.personalizednewsrecommendation.services.UserManager;
 import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class SettingsScreen {
+    private final UserManager userManager;
+    private final ArticleManager articleManager;
+    private final String username;
 
-    private final String username; // Store the username
-    private final ArticleManager articleManager; // Store the ArticleManager
-
-    // Constructor to initialize username and ArticleManager
-    public SettingsScreen(String username, ArticleManager articleManager) {
-        this.username = username;
+    public SettingsScreen(UserManager userManager, ArticleManager articleManager, String username) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
+        this.username = username;
     }
 
     public Scene getSettingsScene(Stage stage) {
-        Label preferencesLabel = new Label("Preferences:");
+        Label preferencesLabel = new Label("Set Preferences (e.g., Technology, Sports):");
         TextField preferencesField = new TextField();
-        preferencesField.setPromptText("Enter your preferences (e.g., Technology, Health)");
 
         Button saveButton = new Button("Save");
         Button backButton = new Button("Back");
 
-        // Save preferences
+        // Save button logic
         saveButton.setOnAction(e -> {
             String preferences = preferencesField.getText();
-            if (preferences.isEmpty()) {
-                Alerts.showError("Please enter valid preferences!");
+            if (!preferences.isEmpty()) {
+                userManager.updateUserPreferences(username, preferences);
+                Alerts.showSuccess("Preferences saved successfully!");
             } else {
-                // Save logic here (currently just a placeholder)
-                // In a real app, you would persist preferences to a database or file.
-                Alerts.showSuccess("Preferences saved for " + username + ": " + preferences);
+                Alerts.showError("Preferences cannot be empty!");
             }
         });
 
-        // Navigate back to HomeDashboard with the username and ArticleManager
-        backButton.setOnAction(e ->
-                stage.setScene(new HomeDashboard(username, articleManager).getHomeScene(stage))
-        );
+        // Back button logic
+        backButton.setOnAction(e -> stage.setScene(new HomeDashboard(userManager, articleManager, username).getHomeScene(stage)));
 
         VBox layout = new VBox(10, preferencesLabel, preferencesField, saveButton, backButton);
         layout.setAlignment(Pos.CENTER);

@@ -1,67 +1,59 @@
 package org.example.personalizednewsrecommendation.controllers;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.personalizednewsrecommendation.services.ArticleManager;
+import org.example.personalizednewsrecommendation.services.UserManager;
 import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class AdminUpdateArticle {
-
+    private final UserManager userManager;
     private final ArticleManager articleManager;
 
-    public AdminUpdateArticle(ArticleManager articleManager) {
+    // Constructor accepting both UserManager and ArticleManager
+    public AdminUpdateArticle(UserManager userManager, ArticleManager articleManager) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
     }
 
     public Scene getUpdateArticleScene(Stage stage) {
-        // Input fields for updating article details
+        Label oldTitleLabel = new Label("Old Title:");
         TextField oldTitleField = new TextField();
-        oldTitleField.setPromptText("Enter existing article title");
 
+        Label newTitleLabel = new Label("New Title:");
         TextField newTitleField = new TextField();
-        newTitleField.setPromptText("Enter new title");
 
-        TextField categoryField = new TextField();
-        categoryField.setPromptText("Enter new category");
+        Label newContentLabel = new Label("New Content:");
+        TextField newContentField = new TextField();
 
-        TextArea contentArea = new TextArea();
-        contentArea.setPromptText("Enter new content");
-
-        // Buttons for actions
-        Button updateButton = new Button("Update Article");
+        Button updateButton = new Button("Update");
         Button backButton = new Button("Back");
 
-        // Update button action
         updateButton.setOnAction(e -> {
             String oldTitle = oldTitleField.getText();
             String newTitle = newTitleField.getText();
-            String category = categoryField.getText();
-            String content = contentArea.getText();
+            String newContent = newContentField.getText();
 
-            if (oldTitle.isEmpty() || newTitle.isEmpty() || category.isEmpty() || content.isEmpty()) {
-                Alerts.showError("All fields are required!");
+            if (!oldTitle.isEmpty() && !newTitle.isEmpty() && !newContent.isEmpty()) {
+                boolean success = articleManager.updateArticle(oldTitle, newTitle, newContent);
+                if (success) {
+                    Alerts.showSuccess("Article updated successfully!");
+                    stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage));
+                } else {
+                    Alerts.showError("Article not found!");
+                }
             } else {
-                articleManager.updateArticle(oldTitle, newTitle, category, content);
-                Alerts.showSuccess("Article updated successfully!");
-                oldTitleField.clear();
-                newTitleField.clear();
-                categoryField.clear();
-                contentArea.clear();
+                Alerts.showError("All fields are required!");
             }
         });
 
-        // Back button action
-        backButton.setOnAction(e ->
-                stage.setScene(new AdminDashboard(articleManager).getAdminScene(stage))
-        );
+        backButton.setOnAction(e -> stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage)));
 
-        // Layout
-        VBox layout = new VBox(10, oldTitleField, newTitleField, categoryField, contentArea, updateButton, backButton);
-        layout.setAlignment(Pos.CENTER);
-
+        VBox layout = new VBox(10, oldTitleLabel, oldTitleField, newTitleLabel, newTitleField, newContentLabel, newContentField, updateButton, backButton);
         return new Scene(layout, 400, 400);
     }
 }

@@ -2,76 +2,94 @@ package org.example.personalizednewsrecommendation.services;
 
 import org.example.personalizednewsrecommendation.models.Article;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArticleManager {
     private final List<Article> articles = new ArrayList<>();
-    private final String datasetPath;
 
-    public ArticleManager(String datasetPath) {
-        this.datasetPath = datasetPath;
-        loadArticlesFromCSV();
+    // Constructor to initialize from a file
+    public ArticleManager(String filePath) {
+        loadArticlesFromFile(filePath);
     }
 
-    // Load articles from the CSV file
-    private void loadArticlesFromCSV() {
-        try (BufferedReader br = new BufferedReader(new FileReader(datasetPath))) {
+    // Default constructor for manual article management
+    public ArticleManager() {
+        // No initialization logic
+    }
+
+    // Method to add an article
+    public void addArticle(String index, String author, String datePublished, String category, String section, String url, String headline, String description, String keywords, String secondHeadline, String articleText) {
+        Article article = new Article(index, author, datePublished, category, section, url, headline, description, keywords, secondHeadline, articleText);
+        articles.add(article);
+    }
+
+    // Method to retrieve all articles
+    public List<Article> getArticles() {
+        return new ArrayList<>(articles);
+    }
+
+    // Method to retrieve article titles only
+    public List<String> getArticleTitles() {
+        return articles.stream()
+                .map(Article::getHeadline) // Use the "headline" as the title
+                .collect(Collectors.toList());
+    }
+
+    // **Newly Added Method**: Retrieve article by title
+    public Article getArticleByTitle(String headline) {
+        return articles.stream()
+                .filter(article -> article.getHeadline().equalsIgnoreCase(headline))
+                .findFirst()
+                .orElse(null); // Return null if no matching article is found
+    }
+
+    // Method to delete an article by title
+    public boolean deleteArticle(String headline) {
+        return articles.removeIf(article -> article.getHeadline().equalsIgnoreCase(headline));
+    }
+
+    // Method to update an article by title
+    public boolean updateArticle(String headline, String newHeadline, String newContent) {
+        for (Article article : articles) {
+            if (article.getHeadline().equalsIgnoreCase(headline)) {
+                article.setHeadline(newHeadline);
+                article.setArticleText(newContent);
+                return true; // Update successful
+            }
+        }
+        return false; // No matching article found
+    }
+
+    // Private helper to load articles from a file
+    private void loadArticlesFromFile(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            // Skip the header
-            br.readLine();
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 4) { // Ensure there are enough columns
-                    articles.add(new Article(data[0], data[1], data[2], data[3]));
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", -1); // Split CSV with empty values included
+                if (parts.length == 11) {
+                    addArticle(
+                            parts[0].trim(), // Index
+                            parts[1].trim(), // Author
+                            parts[2].trim(), // Date published
+                            parts[3].trim(), // Category
+                            parts[4].trim(), // Section
+                            parts[5].trim(), // URL
+                            parts[6].trim(), // Headline
+                            parts[7].trim(), // Description
+                            parts[8].trim(), // Keywords
+                            parts[9].trim(), // Second headline
+                            parts[10].trim() // Article text
+                    );
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error loading dataset: " + e.getMessage());
+            System.err.println("Error reading articles from file: " + e.getMessage());
         }
-    }
-
-    // Save articles back to the CSV file
-    private void saveArticlesToCSV() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(datasetPath))) {
-            // Write header
-            bw.write("id,title,category,content");
-            bw.newLine();
-            for (Article article : articles) {
-                bw.write(String.join(",", article.getId(), article.getTitle(), article.getCategory(), article.getContent()));
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving dataset: " + e.getMessage());
-        }
-    }
-
-    public List<Article> getAllArticles() {
-        return articles;
-    }
-
-    public void addArticle(String title, String category, String content) {
-        String id = String.valueOf(articles.size() + 1);
-        articles.add(new Article(id, title, category, content));
-        saveArticlesToCSV();
-    }
-
-    public void updateArticle(String oldTitle, String newTitle, String category, String content) {
-        for (Article article : articles) {
-            if (article.getTitle().equalsIgnoreCase(oldTitle)) {
-                article.setTitle(newTitle);
-                article.setCategory(category);
-                article.setContent(content);
-                saveArticlesToCSV();
-                return;
-            }
-        }
-        System.out.println("Article not found: " + oldTitle);
-    }
-
-    public void deleteArticle(String title) {
-        articles.removeIf(article -> article.getTitle().equalsIgnoreCase(title));
-        saveArticlesToCSV();
     }
 }

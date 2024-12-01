@@ -1,7 +1,5 @@
 package org.example.personalizednewsrecommendation.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -9,37 +7,49 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.personalizednewsrecommendation.models.Article;
 import org.example.personalizednewsrecommendation.services.ArticleManager;
-
-import java.util.List;
+import org.example.personalizednewsrecommendation.services.UserManager;
+import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class AdminArticleView {
-
+    private final UserManager userManager;
     private final ArticleManager articleManager;
 
-    public AdminArticleView(ArticleManager articleManager) {
+    public AdminArticleView(UserManager userManager, ArticleManager articleManager) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
     }
 
-    public Scene getArticleViewScene(Stage stage) {
-        // Get all articles
-        List<Article> articles = articleManager.getAllArticles();
+    public Scene getViewScene(Stage stage) {
+        ListView<String> articlesListView = new ListView<>();
+        articlesListView.getItems().addAll(articleManager.getArticleTitles());
 
-        // Create a ListView to display articles
-        ListView<String> articleList = new ListView<>();
-        ObservableList<String> items = FXCollections.observableArrayList();
-
-        for (Article article : articles) {
-            items.add(article.getId() + ". " + article.getTitle() + " (" + article.getCategory() + ")");
-        }
-        articleList.setItems(items);
-
-        // Back button to return to AdminDashboard
+//        Button viewContentButton = new Button("View Content");
         Button backButton = new Button("Back");
-        backButton.setOnAction(e ->
-                stage.setScene(new AdminDashboard(articleManager).getAdminScene(stage))
-        );
 
-        VBox layout = new VBox(10, articleList, backButton);
-        return new Scene(layout, 600, 400);
+//        viewContentButton.setOnAction(e -> {
+//            String selectedTitle = articlesListView.getSelectionModel().getSelectedItem();
+//            if (selectedTitle != null) {
+//                Article selectedArticle = articleManager.getArticleByTitle(selectedTitle);
+//                if (selectedArticle != null) {
+//                    Alerts.showSuccess("Content: " + selectedArticle.getArticleText());
+//                } else {
+//                    Alerts.showError("Article not found.");
+//                }
+//            } else {
+//                Alerts.showError("Please select an article to view its content.");
+//            }
+//        });
+        Button viewContentButton = new Button("View Articles");
+
+        viewContentButton.setOnAction(e -> {
+            ArticleDisplay articleDisplay = new ArticleDisplay(userManager, articleManager,  "admin");
+            stage.setScene(articleDisplay.getArticleScene(stage));
+        });
+
+
+        backButton.setOnAction(e -> stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage)));
+
+        VBox layout = new VBox(10, articlesListView, viewContentButton, backButton);
+        return new Scene(layout, 400, 300);
     }
 }

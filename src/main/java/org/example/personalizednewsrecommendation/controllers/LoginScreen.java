@@ -1,6 +1,7 @@
 package org.example.personalizednewsrecommendation.controllers;
 
-import javafx.geometry.Pos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -10,11 +11,11 @@ import org.example.personalizednewsrecommendation.services.UserManager;
 import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class LoginScreen {
-
-    private final UserManager userManager = new UserManager();
+    private final UserManager userManager;
     private final ArticleManager articleManager;
 
-    public LoginScreen(ArticleManager articleManager) {
+    public LoginScreen(UserManager userManager, ArticleManager articleManager) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
     }
 
@@ -23,53 +24,52 @@ public class LoginScreen {
         TextField usernameField = new TextField();
         Label passwordLabel = new Label("Password:");
         PasswordField passwordField = new PasswordField();
-        Label roleLabel = new Label("Role:");
-        ComboBox<String> roleDropdown = new ComboBox<>();
-        roleDropdown.getItems().addAll("User", "Admin");
-        roleDropdown.setValue("User");
+        Label userTypeLabel = new Label("Login as:");
+
+        ObservableList<String> userTypes = FXCollections.observableArrayList("Admin", "User");
+        ComboBox<String> userTypeComboBox = new ComboBox<>(userTypes);
+        userTypeComboBox.setPromptText("Select User Type");
 
         Button loginButton = new Button("Login");
-        Button registerButton = new Button("Register");
-
-        roleDropdown.setOnAction(e -> registerButton.setDisable(roleDropdown.getValue().equals("Admin")));
 
         loginButton.setOnAction(e -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
-            String role = roleDropdown.getValue();
+            String selectedUserType = userTypeComboBox.getValue();
 
-            if (role.equals("Admin")) {
-                if (username.equals("admin") && password.equals("admin123")) {
-                    Alerts.showSuccess("Welcome, Admin!");
-                    stage.setScene(new AdminDashboard(articleManager).getAdminScene(stage));
+            if (selectedUserType == null) {
+                Alerts.showError("Please select a user type!");
+                return;
+            }
+
+            if ("Admin".equalsIgnoreCase(selectedUserType)) {
+                if (userManager.authenticateAdmin(username, password)) {
+                    stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage));
                 } else {
-                    Alerts.showError("Invalid Admin credentials!");
+                    Alerts.showError("Invalid admin credentials!");
                 }
-            } else {
-                if (userManager.login(username, password)) {
-                    Alerts.showSuccess("Welcome, " + username + "!");
-                    stage.setScene(new HomeDashboard(username, articleManager).getHomeScene(stage));
+            } else if ("User".equalsIgnoreCase(selectedUserType)) {
+                if (userManager.authenticateUser(username, password)) {
+                    // Pass the valid articleManager instance
+                    stage.setScene(new UserDashboard(userManager, articleManager, username).getDashboardScene(stage));
                 } else {
-                    Alerts.showError("Invalid User credentials!");
+                    Alerts.showError("Invalid user credentials!");
                 }
             }
         });
 
-        registerButton.setOnAction(e -> Alerts.showSuccess("Redirecting to registration..."));
+        GridPane layout = new GridPane();
+        layout.setVgap(10);
+        layout.setHgap(10);
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setVgap(10);
-        grid.setHgap(10);
-        grid.add(usernameLabel, 0, 0);
-        grid.add(usernameField, 1, 0);
-        grid.add(passwordLabel, 0, 1);
-        grid.add(passwordField, 1, 1);
-        grid.add(roleLabel, 0, 2);
-        grid.add(roleDropdown, 1, 2);
-        grid.add(loginButton, 0, 3);
-        grid.add(registerButton, 1, 3);
+        layout.add(usernameLabel, 0, 0);
+        layout.add(usernameField, 1, 0);
+        layout.add(passwordLabel, 0, 1);
+        layout.add(passwordField, 1, 1);
+        layout.add(userTypeLabel, 0, 2);
+        layout.add(userTypeComboBox, 1, 2);
+        layout.add(loginButton, 1, 3);
 
-        return new Scene(grid, 400, 300);
+        return new Scene(layout, 400, 300);
     }
 }

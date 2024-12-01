@@ -1,47 +1,57 @@
 package org.example.personalizednewsrecommendation.controllers;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.personalizednewsrecommendation.models.Article;
 import org.example.personalizednewsrecommendation.services.ArticleManager;
+import org.example.personalizednewsrecommendation.services.UserManager;
+import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class HomeDashboard {
-
-    private final String username;
+    private final UserManager userManager;
     private final ArticleManager articleManager;
+    private final String username;
 
-    public HomeDashboard(String username, ArticleManager articleManager) {
-        this.username = username;
+    public HomeDashboard(UserManager userManager, ArticleManager articleManager, String username) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
+        this.username = username;
     }
 
     public Scene getHomeScene(Stage stage) {
-        Button viewArticlesButton = new Button("View Recommended Articles");
-        Button settingsButton = new Button("Settings");
+        ListView<String> articleListView = new ListView<>();
+        articleListView.getItems().addAll(articleManager.getArticleTitles());
+
+//        Button viewContentButton = new Button("View Content");
         Button logoutButton = new Button("Logout");
 
-        // View Articles Button Action
-        viewArticlesButton.setOnAction(e ->
-                stage.setScene(new ArticleDisplay(username, articleManager).getArticleScene(stage))
-        );
+        Button viewContentButton = new Button("View Articles");
 
-        // Settings Button Action
-        settingsButton.setOnAction(e ->
-                stage.setScene(new SettingsScreen(username, articleManager).getSettingsScene(stage))
-        );
+        viewContentButton.setOnAction(e -> {
+            ArticleDisplay articleDisplay = new ArticleDisplay(userManager, articleManager, username);
+            stage.setScene(articleDisplay.getArticleScene(stage));
+        });
 
-        // Logout Button Action
-        logoutButton.setOnAction(e ->
-                stage.setScene(new LoginScreen(articleManager).getLoginScene(stage))
-        );
+//        viewContentButton.setOnAction(e -> {
+//            String selectedTitle = articleListView.getSelectionModel().getSelectedItem();
+//            if (selectedTitle != null) {
+//                Article selectedArticle = articleManager.getArticleByTitle(selectedTitle);
+//                if (selectedArticle != null) {
+//                    Alerts.showSuccess("Content: \n" + selectedArticle.getArticleText());
+//                } else {
+//                    Alerts.showError("Article not found.");
+//                }
+//            } else {
+//                Alerts.showError("Please select an article to view.");
+//            }
+//        });
 
-        VBox layout = new VBox(15, viewArticlesButton, settingsButton, logoutButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
+        logoutButton.setOnAction(e -> stage.setScene(new LoginScreen(userManager, articleManager).getLoginScene(stage)));
 
-        return new Scene(layout, 400, 300);
+        VBox layout = new VBox(10, articleListView, viewContentButton, logoutButton);
+        return new Scene(layout, 600, 400);
     }
 }

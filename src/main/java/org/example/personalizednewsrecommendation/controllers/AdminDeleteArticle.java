@@ -2,51 +2,48 @@ package org.example.personalizednewsrecommendation.controllers;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.personalizednewsrecommendation.models.Article;
 import org.example.personalizednewsrecommendation.services.ArticleManager;
+import org.example.personalizednewsrecommendation.services.UserManager;
 import org.example.personalizednewsrecommendation.utils.Alerts;
 
 public class AdminDeleteArticle {
-
+    private final UserManager userManager;
     private final ArticleManager articleManager;
 
-    public AdminDeleteArticle(ArticleManager articleManager) {
+    public AdminDeleteArticle(UserManager userManager, ArticleManager articleManager) {
+        this.userManager = userManager;
         this.articleManager = articleManager;
     }
 
     public Scene getDeleteArticleScene(Stage stage) {
-        // Input field for article title
-        TextField titleField = new TextField();
-        titleField.setPromptText("Enter article title to delete");
+        Label titleLabel = new Label("Select an Article to Delete:");
+        ListView<String> articleListView = new ListView<>();
+        articleListView.getItems().addAll(articleManager.getArticleTitles());
 
-        // Buttons for actions
-        Button deleteButton = new Button("Delete Article");
+        Button deleteButton = new Button("Delete");
         Button backButton = new Button("Back");
 
-        // Delete button action
         deleteButton.setOnAction(e -> {
-            String title = titleField.getText();
-
-            if (title.isEmpty()) {
-                Alerts.showError("Please enter the title of the article to delete!");
-            } else {
-                articleManager.deleteArticle(title);
+            String selectedTitle = articleListView.getSelectionModel().getSelectedItem();
+            if (selectedTitle != null) {
+                articleManager.deleteArticle(selectedTitle);
                 Alerts.showSuccess("Article deleted successfully!");
-                titleField.clear();
+                stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage));
+            } else {
+                Alerts.showError("Please select an article to delete.");
             }
         });
 
-        // Back button action
-        backButton.setOnAction(e ->
-                stage.setScene(new AdminDashboard(articleManager).getAdminScene(stage))
-        );
+        backButton.setOnAction(e -> stage.setScene(new AdminDashboard(userManager, articleManager).getDashboardScene(stage)));
 
-        // Layout
-        VBox layout = new VBox(10, titleField, deleteButton, backButton);
+        VBox layout = new VBox(10, titleLabel, articleListView, deleteButton, backButton);
         layout.setAlignment(Pos.CENTER);
-
-        return new Scene(layout, 400, 300);
+        return new Scene(layout, 400, 400);
     }
 }

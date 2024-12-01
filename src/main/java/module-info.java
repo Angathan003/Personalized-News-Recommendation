@@ -2,6 +2,7 @@ module org.example.personalizednewsrecommendation {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires jbcrypt;
 
 
     opens org.example.personalizednewsrecommendation to javafx.fxml;

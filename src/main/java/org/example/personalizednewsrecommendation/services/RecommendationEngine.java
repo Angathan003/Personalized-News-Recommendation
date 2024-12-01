@@ -2,21 +2,14 @@ package org.example.personalizednewsrecommendation.services;
 
 import org.example.personalizednewsrecommendation.models.Article;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecommendationEngine {
 
-    public List<Article> recommendArticles(String preference, List<Article> allArticles) {
+    public List<Article> getRecommendations(List<Article> allArticles, String preference) {
         return allArticles.stream()
-                .filter(article -> article.getCategory().equalsIgnoreCase(preference))
-                .collect(Collectors.toList());
-    }
-
-    public List<Article> recommendByKeywords(String keyword, List<Article> allArticles) {
-        return allArticles.stream()
-                .filter(article -> article.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
-                        article.getContent().toLowerCase().contains(keyword.toLowerCase()))
+                .filter(article -> article.getArticleText().toLowerCase().contains(preference.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }
