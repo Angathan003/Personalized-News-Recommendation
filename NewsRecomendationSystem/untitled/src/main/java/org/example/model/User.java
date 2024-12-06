@@ -1,41 +1,58 @@
 package org.example.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L; // Optional but recommended
+    private static final long serialVersionUID = 1L;
 
-    private String username;
-    private String password;
-    private Map<String, Integer> preferences; // Changed from List to Map
-    private List<String> readingHistory;
+    protected String username;
+    protected String password;
+    protected String role; // "user" or "admin"
+    protected List<String> readingHistory;
+    protected Map<String, Integer> preferences;
+    protected Map<String, Integer> ratings; // Article ID -> Rating
 
-    public User(String username, String password) {
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
-        this.preferences = new HashMap<>();
+        this.role = role;
         this.readingHistory = new ArrayList<>();
+        this.preferences = new HashMap<>();
+        this.ratings = new HashMap<>();
     }
 
-    // Getters and setters
+    // Getters
     public String getUsername() {
         return username;
     }
+
     public String getPassword() {
         return password;
     }
 
-    // For security reasons, you might avoid providing a getPassword method
+    public String getRole() {
+        return role;
+    }
+
+    public List<String> getReadingHistory() {
+        return readingHistory;
+    }
 
     public Map<String, Integer> getPreferences() {
         return preferences;
     }
 
-    public List<String> getReadingHistory() {
-        return readingHistory;
+    public Map<String, Integer> getRatings() {
+        return ratings;
+    }
+
+    // Setters
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -36,12 +36,11 @@ public class MLRecommendationService {
             doc.add(new StringField("id", article.getId(), Field.Store.YES));
             String content = article.getTitle() + " " + article.getContent();
             doc.add(new TextField("content", content, Field.Store.NO));
-            doc.add(new StringField("category", article.getCategory(), Field.Store.NO)); // Include category
+            doc.add(new StringField("category", article.getCategory().toLowerCase(), Field.Store.NO)); // Ensure category is lowercase
             writer.addDocument(doc);
         }
         writer.close();
     }
-
 
     public List<Article> getRecommendations(User user, int topN) throws Exception {
         // Build user profile from reading history
@@ -71,7 +70,7 @@ public class MLRecommendationService {
         // Boost articles in user's preferred categories
         Map<String, Integer> preferences = user.getPreferences();
         for (String category : preferences.keySet()) {
-            TermQuery categoryQuery = new TermQuery(new Term("category", category));
+            TermQuery categoryQuery = new TermQuery(new Term("category", category.toLowerCase()));
             float boost = preferences.get(category);
             booleanQuery.add(new BoostQuery(categoryQuery, boost), BooleanClause.Occur.SHOULD);
         }
@@ -93,6 +92,7 @@ public class MLRecommendationService {
             if (!user.getReadingHistory().contains(articleId)) {
                 Article article = getArticleById(articleId);
                 if (article != null) {
+                    article.setScore(scoreDoc.score); // Correctly pass float to setScore
                     recommendations.add(article);
                     if (recommendations.size() >= topN) {
                         break;
@@ -103,7 +103,6 @@ public class MLRecommendationService {
         reader.close();
         return recommendations;
     }
-
 
     private Article getArticleById(String id) {
         for (Article article : articles) {
